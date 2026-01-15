@@ -3,7 +3,51 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt'],
+
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Dompetin - Money Tracker',
+      short_name: 'Dompetin',
+      description: 'Aplikasi pencatat keuangan pribadi yang simpel dan mudah digunakan',
+      theme_color: '#f59105',
+      background_color: '#ffffff',
+      display: 'standalone',
+      orientation: 'portrait',
+      scope: '/',
+      start_url: '/',
+      icons: [
+        {
+          src: '/Dompetin.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/Dompetin.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: '/Dompetin.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: '/',
+      globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
+    },
+    client: {
+      installPrompt: true,
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module',
+    },
+  },
 
   app: {
     head: {

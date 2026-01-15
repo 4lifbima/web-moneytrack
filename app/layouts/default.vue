@@ -7,5 +7,10 @@
 
     <!-- Bottom Navigation -->
     <BottomNav />
+
+    <!-- PWA Install Prompt -->
+    <ClientOnly>
+      <InstallPrompt />
+    </ClientOnly>
   </div>
 </template>
