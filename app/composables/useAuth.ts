@@ -8,34 +8,34 @@ interface AuthState {
     user: User | null
     isAuthenticated: boolean
     isLoading: boolean
-    isFetched: boolean
 }
 
-const authState = reactive<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: false,
-    isFetched: false,
-})
-
+// Use useState for SSR compatibility
 export const useAuth = () => {
+    const authState = useState<AuthState>('auth', () => ({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+    }))
+
     const fetchUser = async () => {
-        // Skip if already fetched in this session
-        if (authState.isFetched && authState.isAuthenticated) {
+        // Skip if already authenticated
+        if (authState.value.isAuthenticated && authState.value.user) {
             return
         }
 
-        authState.isLoading = true
+        authState.value.isLoading = true
         try {
-            const response = await $fetch<{ user: User }>('/api/auth/me')
-            authState.user = response.user
-            authState.isAuthenticated = true
+            const response = await $fetch<{ user: User }>('/api/auth/me', {
+                credentials: 'include',
+            })
+            authState.value.user = response.user
+            authState.value.isAuthenticated = true
         } catch {
-            authState.user = null
-            authState.isAuthenticated = false
+            authState.value.user = null
+            authState.value.isAuthenticated = false
         } finally {
-            authState.isLoading = false
-            authState.isFetched = true
+            authState.value.isLoading = false
         }
     }
 
@@ -43,10 +43,10 @@ export const useAuth = () => {
         const response = await $fetch<{ user: User }>('/api/auth/login', {
             method: 'POST',
             body: { email, password },
+            credentials: 'include',
         })
-        authState.user = response.user
-        authState.isAuthenticated = true
-        authState.isFetched = true
+        authState.value.user = response.user
+        authState.value.isAuthenticated = true
         return response
     }
 
@@ -54,29 +54,31 @@ export const useAuth = () => {
         const response = await $fetch<{ user: User }>('/api/auth/register', {
             method: 'POST',
             body: { name, email, password },
+            credentials: 'include',
         })
-        authState.user = response.user
-        authState.isAuthenticated = true
-        authState.isFetched = true
+        authState.value.user = response.user
+        authState.value.isAuthenticated = true
         return response
     }
 
     const logout = async () => {
-        await $fetch('/api/auth/logout', { method: 'POST' })
-        authState.user = null
-        authState.isAuthenticated = false
-        authState.isFetched = false
+        await $fetch('/api/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+        })
+        authState.value.user = null
+        authState.value.isAuthenticated = false
         navigateTo('/login')
     }
 
     const updateUser = (user: User) => {
-        authState.user = user
+        authState.value.user = user
     }
 
     return {
-        user: computed(() => authState.user),
-        isAuthenticated: computed(() => authState.isAuthenticated),
-        isLoading: computed(() => authState.isLoading),
+        user: computed(() => authState.value.user),
+        isAuthenticated: computed(() => authState.value.isAuthenticated),
+        isLoading: computed(() => authState.value.isLoading),
         fetchUser,
         login,
         register,

@@ -7,7 +7,7 @@
     </header>
 
     <!-- Profile Card -->
-    <NuxtLink to="/profile/edit" class="block bg-white rounded-2xl p-5 shadow-soft mb-6 hover:shadow-md transition-shadow">
+    <NuxtLink to="/edit-profile" class="block bg-white rounded-2xl p-5 shadow-soft mb-6 hover:shadow-md transition-shadow">
       <div class="flex items-center gap-4">
         <div class="w-16 h-16 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center">
           <span class="text-2xl font-bold text-white">{{ userInitial }}</span>
