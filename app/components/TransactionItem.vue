@@ -1,11 +1,11 @@
 <template>
-  <div 
-    class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-soft transition-all active:scale-[0.98]"
-    @click="$emit('click')"
+  <NuxtLink 
+    :to="`/transaction/${transaction.id}`"
+    class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-soft transition-all active:scale-[0.98] hover:shadow-md"
   >
     <!-- Category Icon -->
     <div 
-      class="w-12 h-12 rounded-xl flex items-center justify-center"
+      class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
       :class="transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'"
     >
       <component 
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Amount & Date -->
-    <div class="text-right">
+    <div class="text-right flex-shrink-0">
       <p 
         class="font-bold"
         :class="transaction.type === 'income' ? 'text-green-600' : 'text-red-600'"
@@ -31,7 +31,7 @@
       </p>
       <p class="text-xs text-gray-400 mt-1">{{ formatDate(transaction.createdAt) }}</p>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -52,10 +52,6 @@ interface Transaction {
 
 defineProps<{
   transaction: Transaction
-}>()
-
-defineEmits<{
-  click: []
 }>()
 
 const categoryIcons: Record<string, any> = {

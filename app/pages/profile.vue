@@ -50,6 +50,20 @@
         <PhCaretRight :size="20" class="text-gray-400" />
       </NuxtLink>
 
+      <!-- User Guide -->
+      <NuxtLink to="/guide" class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+            <PhBookOpen :size="20" class="text-blue-600" />
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-gray-900">Cara Penggunaan</p>
+            <p class="text-sm text-gray-500">Panduan aplikasi</p>
+          </div>
+        </div>
+        <PhCaretRight :size="20" class="text-gray-400" />
+      </NuxtLink>
+
       <!-- About -->
       <NuxtLink to="/about" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
         <div class="flex items-center gap-4">
@@ -91,7 +105,7 @@
 <script setup lang="ts">
 import { 
   PhCurrencyCircleDollar, PhExport, PhInfo, 
-  PhCaretRight, PhWallet, PhSignOut 
+  PhCaretRight, PhWallet, PhSignOut, PhBookOpen 
 } from '@phosphor-icons/vue'
 
 const { user, logout } = useAuth()
