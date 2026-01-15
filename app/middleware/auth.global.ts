@@ -1,15 +1,14 @@
 export default defineNuxtRouteMiddleware(async (to) => {
     // Skip auth check for login and register pages
-    if (to.path === '/login' || to.path === '/register') {
+    const publicPaths = ['/login', '/register']
+    if (publicPaths.includes(to.path)) {
         return
     }
 
-    const { fetchUser, isAuthenticated, isLoading } = useAuth()
+    const { fetchUser, isAuthenticated } = useAuth()
 
-    // Fetch user if not yet loaded
-    if (isLoading.value) {
-        await fetchUser()
-    }
+    // Always fetch user on page load to verify session
+    await fetchUser()
 
     // Redirect to login if not authenticated
     if (!isAuthenticated.value) {

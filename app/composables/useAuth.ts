@@ -8,16 +8,23 @@ interface AuthState {
     user: User | null
     isAuthenticated: boolean
     isLoading: boolean
+    isFetched: boolean
 }
 
 const authState = reactive<AuthState>({
     user: null,
     isAuthenticated: false,
-    isLoading: true,
+    isLoading: false,
+    isFetched: false,
 })
 
 export const useAuth = () => {
     const fetchUser = async () => {
+        // Skip if already fetched in this session
+        if (authState.isFetched && authState.isAuthenticated) {
+            return
+        }
+
         authState.isLoading = true
         try {
             const response = await $fetch<{ user: User }>('/api/auth/me')
@@ -28,6 +35,7 @@ export const useAuth = () => {
             authState.isAuthenticated = false
         } finally {
             authState.isLoading = false
+            authState.isFetched = true
         }
     }
 
@@ -38,6 +46,7 @@ export const useAuth = () => {
         })
         authState.user = response.user
         authState.isAuthenticated = true
+        authState.isFetched = true
         return response
     }
 
@@ -48,6 +57,7 @@ export const useAuth = () => {
         })
         authState.user = response.user
         authState.isAuthenticated = true
+        authState.isFetched = true
         return response
     }
 
@@ -55,7 +65,12 @@ export const useAuth = () => {
         await $fetch('/api/auth/logout', { method: 'POST' })
         authState.user = null
         authState.isAuthenticated = false
+        authState.isFetched = false
         navigateTo('/login')
+    }
+
+    const updateUser = (user: User) => {
+        authState.user = user
     }
 
     return {
@@ -66,5 +81,6 @@ export const useAuth = () => {
         login,
         register,
         logout,
+        updateUser,
     }
 }
