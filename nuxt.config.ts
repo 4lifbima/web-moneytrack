@@ -67,6 +67,7 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Dompetin - Money Tracker' },
         { property: 'og:description', content: 'Aplikasi pencatat keuangan pribadi yang simpel dan mudah digunakan. Catat pemasukan, pengeluaran, dan pantau statistik keuanganmu.' },
+        { property: 'og:url', content: 'https://moneytrack.alifbima.my.id' },
         { property: 'og:image', content: '/og-image.png' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
@@ -77,6 +78,7 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'Dompetin - Money Tracker' },
         { name: 'twitter:description', content: 'Aplikasi pencatat keuangan pribadi yang simpel dan mudah digunakan.' },
+        { name: 'twitter:url', content: 'https://moneytrack.alifbima.my.id' },
         { name: 'twitter:image', content: '/og-image.png' },
 
         // Apple
